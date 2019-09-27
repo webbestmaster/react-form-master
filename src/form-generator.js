@@ -12,6 +12,7 @@ type PropsType = {|
 |};
 
 function noop(value: mixed): null {
+    console.log(value);
     return null;
 }
 
@@ -26,9 +27,15 @@ export class FormGenerator extends Component<PropsType, null> {
     renderFieldSet = (fieldSetData: FieldSetDataType): Node => {
         const view = this;
 
-        const {id, fieldList, fieldSetWrapper: FieldSetWrapper} = fieldSetData;
+        const {id, fieldList, fieldSetWrapper} = fieldSetData;
 
-        return <FieldSetWrapper key={id}>{fieldList.map(view.renderField)}</FieldSetWrapper>;
+        const {component: FieldSetWrapper, legend} = fieldSetWrapper;
+
+        return (
+            <FieldSetWrapper key={id} legend={legend}>
+                {fieldList.map(view.renderField)}
+            </FieldSetWrapper>
+        );
     };
 
     renderFieldSetList = (fieldSetDataList: Array<FieldSetDataType>): Array<Node> => {
@@ -43,6 +50,10 @@ export class FormGenerator extends Component<PropsType, null> {
         const {config} = props;
         const {fieldSetList} = config;
 
-        return <>{view.renderFieldSetList(fieldSetList)}</>;
+        return (
+            <form action="#" method="post" target="_blank">
+                {view.renderFieldSetList(fieldSetList)}
+            </form>
+        );
     }
 }

@@ -19,7 +19,10 @@ const formGeneratorConfig: FormGeneratorConfigType = {
                     fieldComponent: InputText,
                 },
             ],
-            fieldSetWrapper: FieldSet,
+            fieldSetWrapper: {
+                component: FieldSet,
+                legend: <legend>about user</legend>,
+            },
         },
     ],
 };

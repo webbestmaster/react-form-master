@@ -3,14 +3,17 @@
 import type {Node} from 'react';
 import React from 'react';
 
-type PropsType = {
-    +children: Node,
-};
+import type {FieldSetWrapperDataType} from '../../type';
 
-export type FieldSetPropsType = PropsType;
+type PropsType = FieldSetWrapperDataType;
 
 export function FieldSet(props: PropsType): Node {
-    const {children} = props;
+    const {children, legend} = props;
 
-    return <fieldset>{children}</fieldset>;
+    return (
+        <fieldset>
+            {legend}
+            {children}
+        </fieldset>
+    );
 }

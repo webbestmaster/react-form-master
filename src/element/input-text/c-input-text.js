@@ -8,5 +8,9 @@ import type {InputComponentPropsType} from '../../type';
 type PropsType = InputComponentPropsType;
 
 export function InputText(props: PropsType): Node {
-    return <input type="text"/>;
+    function handleOnChange(evt: SyntheticEvent<HTMLInputElement>) {
+        props.onChange(evt.currentTarget.value);
+    }
+
+    return <input onChange={handleOnChange} type="text"/>;
 }

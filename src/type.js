@@ -1,6 +1,6 @@
 // @flow
 
-import type {FieldSetPropsType} from './element/field-set/field-set';
+import type {Node} from 'react';
 
 export type InputComponentPropsType = {
     +onChange: (value: mixed) => mixed,
@@ -14,11 +14,19 @@ export type FieldDataType = {|
     +fieldComponent: React$ComponentType<InputComponentPropsType>,
 |};
 
+export type FieldSetWrapperDataType = {
+    +children: Node,
+    +legend: Node,
+};
+
 export type FieldSetDataType = {|
     +id: string,
     +fieldList: Array<FieldDataType>,
-    // eslint-disable-next-line id-match
-    +fieldSetWrapper: React$ComponentType<FieldSetPropsType>,
+    +fieldSetWrapper: {|
+        // eslint-disable-next-line id-match
+        +component: React$ComponentType<FieldSetWrapperDataType>,
+        +legend: Node,
+    |},
 |};
 
 export type FormGeneratorConfigType = {|
