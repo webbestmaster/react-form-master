@@ -16,7 +16,13 @@ const formGeneratorConfig: FormGeneratorConfigType = {
                 {
                     name: 'name',
                     validate: (name: string, value: mixed, formData: {}): Array<Error> => {
-                        return [new Error(`Can not validate -> ${name} : ${String(value)}`)];
+                        const errorList = [];
+
+                        if (!value || String(value).length <= 3) {
+                            errorList.push(new Error(`Can not validate -> ${name} : ${String(value)}, too short`));
+                        }
+
+                        return errorList;
                     },
                     fieldComponent: InputText,
                 },
@@ -36,9 +42,9 @@ const formGeneratorConfig: FormGeneratorConfigType = {
 };
 
 export function App(): Node {
-    return (
-        <div>
-            <FormGenerator config={formGeneratorConfig}/>
-        </div>
-    );
+    function handleFormSubmit(formData: {}) {
+        console.log('form data is here', formData);
+    }
+
+    return <FormGenerator config={formGeneratorConfig} onSubmit={handleFormSubmit}/>;
 }

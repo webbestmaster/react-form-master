@@ -11,6 +11,7 @@ import type {FieldDataType, FieldSetDataType, FormGeneratorConfigType, InputComp
 
 type PropsType = {|
     +config: FormGeneratorConfigType,
+    +onSubmit: (formData: {}) => mixed,
 |};
 
 type StateType = {|
@@ -36,14 +37,12 @@ export class FormGenerator extends Component<PropsType, StateType> {
 
     createOnChangeFieldHandler(fieldData: FieldDataType): InputComponentOnChangeType {
         const view = this;
-        const {name, validate, fieldComponent: FieldComponent} = fieldData;
+        const {name} = fieldData;
 
         return (value: mixed) => {
             const {state} = view;
             const formData = {...state.formData, [name]: value};
-            // const formValidation = {...state.formValidation, [name]: validate(name, value, formData)};
 
-            // view.setState({formData, formValidation});
             view.setState({formData});
         };
     }
@@ -52,7 +51,7 @@ export class FormGenerator extends Component<PropsType, StateType> {
         const view = this;
         const {state} = view;
         const {formValidation} = state;
-        const {name, validate, fieldComponent: FieldComponent} = fieldData;
+        const {name, fieldComponent: FieldComponent} = fieldData;
 
         const onChangeFieldHandler = view.createOnChangeFieldHandler(fieldData);
         const errorList = hasProperty(formValidation, name) ? formValidation[name] : [];
@@ -78,8 +77,52 @@ export class FormGenerator extends Component<PropsType, StateType> {
         return fieldSetDataList.map(view.renderFieldSet);
     };
 
+    validateFieldSetList(): Array<Error> {
+        const view = this;
+        const {props, state} = view;
+        const {formData} = state;
+        const formValidation = {};
+        const {config} = props;
+        const {fieldSetList} = config;
+
+        const errorList: Array<Error> = [];
+
+        fieldSetList.forEach((fieldSetData: FieldSetDataType) => {
+            const {fieldList} = fieldSetData;
+
+            fieldList.forEach((fieldData: FieldDataType) => {
+                const {name, validate} = fieldData;
+                const fieldErrorList = validate(name, formData[name], formData);
+
+                formValidation[name] = fieldErrorList;
+
+                errorList.push(...fieldErrorList);
+            });
+        });
+
+        view.setState({formValidation});
+
+        return errorList;
+    }
+
     handleFormSubmit = (evt: SyntheticEvent<HTMLFormElement>) => {
         evt.preventDefault();
+
+        const view = this;
+        const {props, state} = view;
+
+        const errorList = view.validateFieldSetList();
+
+        if (errorList.length > 0) {
+            console.log('Form has the Errors!');
+            console.log(errorList);
+            return;
+        }
+
+        const {onSubmit} = props;
+        const {formData} = state;
+
+        onSubmit(formData);
     };
 
     render(): Node {
@@ -89,7 +132,7 @@ export class FormGenerator extends Component<PropsType, StateType> {
         const {fieldSetList} = config;
 
         return (
-            <form action="/" method="post" onChange={view.handleFormSubmit} onSubmit={view.handleFormSubmit}>
+            <form action="#" method="post" onSubmit={view.handleFormSubmit}>
                 {view.renderFieldSetList(fieldSetList)}
                 <input type="submit" value="submit button"/>
             </form>
