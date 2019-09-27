@@ -5,30 +5,52 @@
 import type {Node} from 'react';
 import React, {Component} from 'react';
 
-import type {FieldDataType, FieldSetDataType, FormGeneratorConfigType} from './type';
+import type {FieldDataType, FieldSetDataType, FormGeneratorConfigType, InputComponentOnChangeType} from './type';
 
 type PropsType = {|
     +config: FormGeneratorConfigType,
 |};
 
-function noop(value: mixed): null {
-    console.log(value);
-    return null;
-}
+type StateType = {|
+    +formData: {
+        +[key: string]: mixed,
+    },
+|};
 
-export class FormGenerator extends Component<PropsType, null> {
+export class FormGenerator extends Component<PropsType, StateType> {
+    constructor(props: PropsType) {
+        super(props);
+
+        const view = this;
+
+        view.state = {
+            formData: {},
+        };
+    }
+
+    createOnChangeFieldHandler(): InputComponentOnChangeType {
+        const view = this;
+
+        return (name: string, value: mixed) => {
+            const {state} = view;
+            const {formData} = state;
+
+            view.setState({formData: {...formData, [name]: value}});
+        };
+    }
+
     renderField = (fieldData: FieldDataType): Node => {
         const view = this;
         const {name, validate, fieldComponent: FieldComponent} = fieldData;
 
-        return <FieldComponent errorList={[]} key={name} name={name} onChange={noop}/>;
+        const onChangeFieldHandler = view.createOnChangeFieldHandler();
+
+        return <FieldComponent errorList={[]} key={name} name={name} onChange={onChangeFieldHandler}/>;
     };
 
     renderFieldSet = (fieldSetData: FieldSetDataType): Node => {
         const view = this;
-
         const {name, fieldList, fieldSetWrapper} = fieldSetData;
-
         const {component: FieldSetWrapper, legend} = fieldSetWrapper;
 
         return (
@@ -44,6 +66,10 @@ export class FormGenerator extends Component<PropsType, null> {
         return fieldSetDataList.map(view.renderFieldSet);
     };
 
+    handleFormSubmit = () => {
+        console.log('handleFormSubmit');
+    };
+
     render(): Node {
         const view = this;
         const {props} = view;
@@ -51,9 +77,9 @@ export class FormGenerator extends Component<PropsType, null> {
         const {fieldSetList} = config;
 
         return (
-            <form action="/" method="post">
+            <form action="/" method="post" onChange={view.handleFormSubmit} onSubmit={view.handleFormSubmit}>
                 {view.renderFieldSetList(fieldSetList)}
-                <input type="submit" value="sumbit button"/>
+                <input type="submit" value="submit button"/>
             </form>
         );
     }

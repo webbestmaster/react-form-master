@@ -5,8 +5,8 @@ import React from 'react';
 
 import {FormGenerator} from '../../../../src/form-generator';
 import type {FormGeneratorConfigType} from '../../../../src/type';
-import {InputText} from '../../../../src/element/input-text/c-input-text';
-import {FieldSet} from '../../../../src/element/field-set/field-set';
+import {InputText} from '../../../../src/field/input-text/c-input-text';
+import {FieldSet} from '../../../../src/field/field-set/field-set';
 
 const formGeneratorConfig: FormGeneratorConfigType = {
     fieldSetList: [

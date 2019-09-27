@@ -8,15 +8,18 @@ import type {InputComponentPropsType} from '../../type';
 type PropsType = InputComponentPropsType;
 
 export function InputText(props: PropsType): Node {
-    const {name, onChange} = props;
+    const {name, onChange, errorList} = props;
 
     function handleOnChange(evt: SyntheticEvent<HTMLInputElement>) {
-        onChange(evt.currentTarget.value);
+        console.log(name, evt.currentTarget.value);
+        onChange(name, evt.currentTarget.value);
     }
 
     return (
         <label>
             <input name={name} onChange={handleOnChange} type="text"/>
+            <br/>
+            errorList: {JSON.stringify(errorList)}
         </label>
     );
 }

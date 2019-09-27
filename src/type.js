@@ -2,9 +2,11 @@
 
 import type {Node} from 'react';
 
+export type InputComponentOnChangeType = (name: string, value: mixed) => mixed;
+
 export type InputComponentPropsType = {
     +name: string,
-    +onChange: (value: mixed) => mixed,
+    +onChange: InputComponentOnChangeType,
     +errorList: Array<Error>,
 };
 
