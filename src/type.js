@@ -32,4 +32,5 @@ export type FieldSetDataType = {|
 
 export type FormGeneratorConfigType = {|
     +fieldSetList: Array<FieldSetDataType>,
+    +otherProps: mixed,
 |};

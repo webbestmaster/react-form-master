@@ -14,5 +14,9 @@ export function InputText(props: PropsType): Node {
         onChange(evt.currentTarget.value);
     }
 
-    return <input name={name} onChange={handleOnChange} type="text"/>;
+    return (
+        <label>
+            <input name={name} onChange={handleOnChange} type="text"/>
+        </label>
+    );
 }

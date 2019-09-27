@@ -30,6 +30,7 @@ const formGeneratorConfig: FormGeneratorConfigType = {
             },
         },
     ],
+    otherProps: null,
 };
 
 export function App(): Node {
