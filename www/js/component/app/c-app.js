@@ -15,12 +15,14 @@ const formGeneratorConfig: FormGeneratorConfigType = {
             fieldList: [
                 {
                     name: 'name',
-                    validate: (value: mixed, formData: {}): Array<Error> => [],
+                    validate: (name: string, value: mixed, formData: {}): Array<Error> => {
+                        return [new Error(`Can not validate -> ${name} : ${String(value)}`)];
+                    },
                     fieldComponent: InputText,
                 },
                 {
                     name: 'last name',
-                    validate: (value: mixed, formData: {}): Array<Error> => [],
+                    validate: (name: string, value: mixed, formData: {}): Array<Error> => [],
                     fieldComponent: InputText,
                 },
             ],

@@ -19,7 +19,7 @@ export function InputText(props: PropsType): Node {
         <label>
             <input name={name} onChange={handleOnChange} type="text"/>
             <br/>
-            errorList: {JSON.stringify(errorList)}
+            errorList: {errorList.map((error: Error): string => error.message)}
         </label>
     );
 }

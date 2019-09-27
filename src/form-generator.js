@@ -5,6 +5,8 @@
 import type {Node} from 'react';
 import React, {Component} from 'react';
 
+import {hasProperty} from '../www/js/lib/is';
+
 import type {FieldDataType, FieldSetDataType, FormGeneratorConfigType, InputComponentOnChangeType} from './type';
 
 type PropsType = {|
@@ -14,6 +16,9 @@ type PropsType = {|
 type StateType = {|
     +formData: {
         +[key: string]: mixed,
+    },
+    +formValidation: {
+        +[key: string]: Array<Error>,
     },
 |};
 
@@ -25,6 +30,7 @@ export class FormGenerator extends Component<PropsType, StateType> {
 
         view.state = {
             formData: {},
+            formValidation: {},
         };
     }
 
@@ -35,18 +41,22 @@ export class FormGenerator extends Component<PropsType, StateType> {
         return (value: mixed) => {
             const {state} = view;
             const formData = {...state.formData, [name]: value};
+            const formValidation = {...state.formValidation, [name]: validate(name, value, formData)};
 
-            view.setState({formData});
+            view.setState({formData, formValidation});
         };
     }
 
     renderField = (fieldData: FieldDataType): Node => {
         const view = this;
+        const {state} = view;
+        const {formValidation} = state;
         const {name, validate, fieldComponent: FieldComponent} = fieldData;
 
         const onChangeFieldHandler = view.createOnChangeFieldHandler(fieldData);
+        const errorList = hasProperty(formValidation, name) ? formValidation[name] : [];
 
-        return <FieldComponent errorList={[]} key={name} name={name} onChange={onChangeFieldHandler}/>;
+        return <FieldComponent errorList={errorList} key={name} name={name} onChange={onChangeFieldHandler}/>;
     };
 
     renderFieldSet = (fieldSetData: FieldSetDataType): Node => {

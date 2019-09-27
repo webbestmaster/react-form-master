@@ -12,7 +12,7 @@ export type InputComponentPropsType = {
 
 export type FieldDataType = {|
     +name: string,
-    +validate: (value: mixed, formData: {}) => Array<Error>,
+    +validate: (name: string, value: mixed, formData: {}) => Array<Error>,
     // eslint-disable-next-line id-match
     +fieldComponent: React$ComponentType<InputComponentPropsType>,
 |};
