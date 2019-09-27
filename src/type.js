@@ -3,13 +3,14 @@
 import type {Node} from 'react';
 
 export type InputComponentPropsType = {
+    +name: string,
     +onChange: (value: mixed) => mixed,
     +errorList: Array<Error>,
 };
 
 export type FieldDataType = {|
-    +id: string,
-    +validate: (value: mixed, formData: mixed) => Array<Error>,
+    +name: string,
+    +validate: (value: mixed, formData: {}) => Array<Error>,
     // eslint-disable-next-line id-match
     +fieldComponent: React$ComponentType<InputComponentPropsType>,
 |};
@@ -20,7 +21,7 @@ export type FieldSetWrapperDataType = {
 };
 
 export type FieldSetDataType = {|
-    +id: string,
+    +name: string,
     +fieldList: Array<FieldDataType>,
     +fieldSetWrapper: {|
         // eslint-disable-next-line id-match

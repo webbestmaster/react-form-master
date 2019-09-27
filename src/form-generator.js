@@ -19,20 +19,20 @@ function noop(value: mixed): null {
 export class FormGenerator extends Component<PropsType, null> {
     renderField = (fieldData: FieldDataType): Node => {
         const view = this;
-        const {id, validate, fieldComponent: FieldComponent} = fieldData;
+        const {name, validate, fieldComponent: FieldComponent} = fieldData;
 
-        return <FieldComponent errorList={[]} key={id} onChange={noop}/>;
+        return <FieldComponent errorList={[]} key={name} name={name} onChange={noop}/>;
     };
 
     renderFieldSet = (fieldSetData: FieldSetDataType): Node => {
         const view = this;
 
-        const {id, fieldList, fieldSetWrapper} = fieldSetData;
+        const {name, fieldList, fieldSetWrapper} = fieldSetData;
 
         const {component: FieldSetWrapper, legend} = fieldSetWrapper;
 
         return (
-            <FieldSetWrapper key={id} legend={legend}>
+            <FieldSetWrapper key={name} legend={legend}>
                 {fieldList.map(view.renderField)}
             </FieldSetWrapper>
         );
@@ -51,8 +51,9 @@ export class FormGenerator extends Component<PropsType, null> {
         const {fieldSetList} = config;
 
         return (
-            <form action="#" method="post" target="_blank">
+            <form action="/" method="post">
                 {view.renderFieldSetList(fieldSetList)}
+                <input type="submit" value="sumbit button"/>
             </form>
         );
     }

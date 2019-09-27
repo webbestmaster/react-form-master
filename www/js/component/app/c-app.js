@@ -11,11 +11,16 @@ import {FieldSet} from '../../../../src/element/field-set/field-set';
 const formGeneratorConfig: FormGeneratorConfigType = {
     fieldSetList: [
         {
-            id: 'about user',
+            name: 'aboutUser',
             fieldList: [
                 {
-                    id: 'name',
-                    validate: (value: mixed, formData: mixed): Array<Error> => [],
+                    name: 'name',
+                    validate: (value: mixed, formData: {}): Array<Error> => [],
+                    fieldComponent: InputText,
+                },
+                {
+                    name: 'last name',
+                    validate: (value: mixed, formData: {}): Array<Error> => [],
                     fieldComponent: InputText,
                 },
             ],
