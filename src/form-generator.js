@@ -41,9 +41,10 @@ export class FormGenerator extends Component<PropsType, StateType> {
         return (value: mixed) => {
             const {state} = view;
             const formData = {...state.formData, [name]: value};
-            const formValidation = {...state.formValidation, [name]: validate(name, value, formData)};
+            // const formValidation = {...state.formValidation, [name]: validate(name, value, formData)};
 
-            view.setState({formData, formValidation});
+            // view.setState({formData, formValidation});
+            view.setState({formData});
         };
     }
 
@@ -77,8 +78,8 @@ export class FormGenerator extends Component<PropsType, StateType> {
         return fieldSetDataList.map(view.renderFieldSet);
     };
 
-    handleFormSubmit = () => {
-        console.log('handleFormSubmit');
+    handleFormSubmit = (evt: SyntheticEvent<HTMLFormElement>) => {
+        evt.preventDefault();
     };
 
     render(): Node {
