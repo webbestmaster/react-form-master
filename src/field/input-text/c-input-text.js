@@ -11,8 +11,8 @@ export function InputText(props: PropsType): Node {
     const {name, onChange, errorList} = props;
 
     function handleOnChange(evt: SyntheticEvent<HTMLInputElement>) {
-        console.log(name, evt.currentTarget.value);
-        onChange(name, evt.currentTarget.value);
+        console.log(name, '-', evt.currentTarget.value);
+        onChange(evt.currentTarget.value);
     }
 
     return (

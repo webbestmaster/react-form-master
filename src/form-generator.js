@@ -28,14 +28,15 @@ export class FormGenerator extends Component<PropsType, StateType> {
         };
     }
 
-    createOnChangeFieldHandler(): InputComponentOnChangeType {
+    createOnChangeFieldHandler(fieldData: FieldDataType): InputComponentOnChangeType {
         const view = this;
+        const {name, validate, fieldComponent: FieldComponent} = fieldData;
 
-        return (name: string, value: mixed) => {
+        return (value: mixed) => {
             const {state} = view;
-            const {formData} = state;
+            const formData = {...state.formData, [name]: value};
 
-            view.setState({formData: {...formData, [name]: value}});
+            view.setState({formData});
         };
     }
 
@@ -43,7 +44,7 @@ export class FormGenerator extends Component<PropsType, StateType> {
         const view = this;
         const {name, validate, fieldComponent: FieldComponent} = fieldData;
 
-        const onChangeFieldHandler = view.createOnChangeFieldHandler();
+        const onChangeFieldHandler = view.createOnChangeFieldHandler(fieldData);
 
         return <FieldComponent errorList={[]} key={name} name={name} onChange={onChangeFieldHandler}/>;
     };

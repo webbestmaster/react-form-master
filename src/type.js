@@ -2,7 +2,7 @@
 
 import type {Node} from 'react';
 
-export type InputComponentOnChangeType = (name: string, value: mixed) => mixed;
+export type InputComponentOnChangeType = (value: mixed) => mixed;
 
 export type InputComponentPropsType = {
     +name: string,
